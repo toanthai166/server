@@ -30,6 +30,7 @@ const changeIsActiveFAQ = {
   }),
   body: Joi.object()
     .keys({
+      id: Joi.string().custom(objectId),
       isActive: Joi.boolean().required(),
     })
     .min(1),

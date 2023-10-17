@@ -10,7 +10,7 @@ router.route('/').get(validate(faqValidation.getFAQs), faqController.getFAQs);
 router.route('/create').post(auth('faq'), validate(faqValidation.createFAQ), faqController.createFAQ);
 router
   .route('/:faqId')
-  .get(auth('faq'), validate(faqValidation.getFAQ), faqController.getFAQ)
+  .get(validate(faqValidation.getFAQ), faqController.getFAQ)
   .patch(auth('faq'), validate(faqValidation.updateFAQ), faqController.updateFAQById)
   .delete(auth('faq'), validate(faqValidation.deleteFAQ), faqController.deleteFAQ);
 

@@ -10,11 +10,11 @@ const createBlog = catchAsync(async (req, res, next) => {
   //   req.body.content = req.body.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   // }
   // next();
-  const category = await Category.findById(req.body.categoryId);
+  // const category = await Category.findById(req.body.categoryId);
   const newBlog = {
     ...req.body,
     author: req.user,
-    category: category,
+    category: req.body.categoryId,
   };
   console.log(req.body);
   await blogService.createBlog(newBlog);
