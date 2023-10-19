@@ -4,6 +4,18 @@ const Blog = require('../models/blog.model');
 const Category = require('../models/category.model');
 
 const createBlog = async (blogBody) => {
+  const categoryId = blogBody.category;
+
+  // Tiến hành truy vấn cơ sở dữ liệu để lấy category từ categoryId
+  const category = await Category.findById(categoryId); // Thay 'Category' bằng tên mô hình category của bạn
+
+  if (!category) {
+    throw new Error('Category not found');
+  }
+
+  // Gán đối tượng category đã truy vấn từ cơ sở dữ liệu vào blogBody
+  blogBody.category = category.toObject();
+  console.log('body', blogBody);
   return Blog.create(blogBody);
 };
 

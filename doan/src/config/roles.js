@@ -1,5 +1,5 @@
 const allRoles = {
-  user: ['changeFavoriteBlog', 'comment'],
+  user: ['changeFavoriteBlog', 'comment', 'favorite'],
   manager: ['detele'],
   admin: [
     'changeFavoriteBlog',

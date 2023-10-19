@@ -1,23 +1,23 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
-const imageController = require('../../controllers/image.controller');
-const multer = require('multer');
-const path = require('path');
+const validate = require('../../middlewares/validate');
+const favoriteValidation = require('../../validations/favorite.validation');
+const favoriteController = require('../../controllers/favorite.controller');
 
 const router = express.Router();
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, '../../blog/client/public/uploads');
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `${Date.now()}${ext}`);
-  },
-});
 
-const upload = multer({ storage });
+router.route('/create').post(auth('favorite'), validate(favoriteValidation.addFavorite), favoriteController.createFavorite);
+router
+  .route('/delete')
+  .delete(auth('favorite'), validate(favoriteValidation.removeFavorite), favoriteController.deleteFavorite);
+// router
+//   .route('/:favoriteId')
+//   .patch(auth('favorite'), validate(favoriteValidation.updatefavorite), favoriteController.updatefavoriteById)
+//   .delete(auth('favorite'), validate(favoriteValidation.deletefavorite), favoriteController.deletefavorite);
 
-router.route('/').post(auth('image'), upload.single('image'), imageController.upload);
+router.route('/user').get(validate(favoriteValidation.usergetFavorite), favoriteController.userGetFavorite);
+
+// .delete(validate(blogValidation.deleteBlog), blogController.deleteBlog);
 
 module.exports = router;
 

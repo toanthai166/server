@@ -7,6 +7,7 @@ const categoryRoute = require('./category.route');
 const commentRoute = require('./comment.route');
 const faqRoute = require('./faq.route');
 const productRoute = require('./product.route');
+const favoriteRoute = require('./favorite.route');
 const imageRoute = require('./image.route');
 const config = require('../../config/config');
 
@@ -44,6 +45,10 @@ const defaultRoutes = [
   {
     path: '/upload-image',
     route: imageRoute,
+  },
+  {
+    path: '/favorite',
+    route: favoriteRoute,
   },
 ];
 

@@ -5,7 +5,7 @@ const createBlog = {
   body: Joi.object().keys({
     title: Joi.string().required(),
     content: Joi.string().required(),
-    imageLink: Joi.string(),
+    image: Joi.string(),
     categoryId: Joi.string().required(),
     isActive: Joi.boolean(),
     isFavorite: Joi.boolean(),
@@ -64,7 +64,7 @@ const updateBlog = {
       id: Joi.required().custom(objectId),
       title: Joi.string(),
       content: Joi.string(),
-      imageLink: Joi.string(),
+      image: Joi.string(),
       categoryId: Joi.string(),
       isActive: Joi.boolean(),
       isFavorite: Joi.boolean(),

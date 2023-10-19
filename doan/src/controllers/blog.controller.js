@@ -5,18 +5,13 @@ const catchAsync = require('../utils/catchAsync');
 const { blogService } = require('../services');
 const Category = require('../models/category.model');
 
-const createBlog = catchAsync(async (req, res, next) => {
-  // if (req.body && req.body.content) {
-  //   req.body.content = req.body.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-  // }
-  // next();
-  // const category = await Category.findById(req.body.categoryId);
+const createBlog = catchAsync(async (req, res) => {
   const newBlog = {
     ...req.body,
     author: req.user,
     category: req.body.categoryId,
   };
-  console.log(req.body);
+  console.log(newBlog);
   await blogService.createBlog(newBlog);
   res.status(httpStatus.CREATED).send(newBlog);
 });
@@ -41,14 +36,13 @@ const changeIsActiveBlog = catchAsync(async (req, res) => {
   const blog = await blogService.updateBlogById(req.body.blogId, newBlog);
   res.send(blog);
 });
+
 const getBlogs = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['categoryId', 'isActive']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   if (req.query.title) {
-    // Tạo biểu thức chính quy để tìm kiếm gần đúng hoặc có chữ trong title
     const titleRegex = new RegExp(req.query.title, 'i');
 
-    // Đặt biểu thức chính quy vào filter.title
     filter.title = titleRegex;
   }
   const result = await blogService.queryBlogs(filter, options);
@@ -61,8 +55,8 @@ const getBlog = catchAsync(async (req, res) => {
   if (!blog) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Blog not found');
   }
-  const { isActive, isFavorite, _id, title, categoryId } = blog;
-  const newblog = { isActive, isFavorite, _id, title, categoryId, content: content };
+  const { isActive, isFavorite, _id, title, categoryId, image } = blog;
+  const newblog = { isActive, isFavorite, _id, title, categoryId, image, content: content };
   res.send(newblog);
 });
 

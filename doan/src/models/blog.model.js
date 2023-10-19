@@ -15,7 +15,7 @@ const blogSchema = mongoose.Schema(
     content: {
       type: String,
     },
-    imageLink: {
+    image: {
       type: String,
       trim: true,
     },
@@ -27,10 +27,14 @@ const blogSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    category: {
+    categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
     },
+    // category: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'Category',
+    // },
   },
   {
     timestamps: true,
