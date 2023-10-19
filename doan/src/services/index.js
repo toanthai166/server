@@ -8,3 +8,4 @@ module.exports.commentService = require('./comment.service');
 module.exports.FAQService = require('./faq.service');
 module.exports.productService = require('./product.service');
 module.exports.favoriteService = require('./favorite.service');
+module.exports.contactService = require('./contact.service');
