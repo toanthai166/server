@@ -31,10 +31,9 @@ const blogSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
     },
-    // category: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'Category',
-    // },
+    category: {
+      type: Object,
+    },
   },
   {
     timestamps: true,

@@ -12,12 +12,6 @@ const CategorySchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    createAt: {
-      type: String,
-    },
-    updateAt: {
-      type: String,
-    },
   },
   {
     timestamps: true,

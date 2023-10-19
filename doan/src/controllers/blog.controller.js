@@ -9,7 +9,6 @@ const createBlog = catchAsync(async (req, res) => {
   const newBlog = {
     ...req.body,
     author: req.user,
-    category: req.body.categoryId,
   };
   console.log(newBlog);
   await blogService.createBlog(newBlog);
