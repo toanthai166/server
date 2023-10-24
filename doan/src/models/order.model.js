@@ -10,11 +10,13 @@ const orderSchema = mongoose.Schema(
     code: {
       type: String,
     },
-    addresses: { type: Object },
+    addresses: {
+      type: Object,
+    },
     status: {
       type: String,
       enum: ['wait_for_confirm', 'shipping', 'cancel', 'complete', 'delivered'],
-      default: 'WAIT_FOR_CONFIRM',
+      default: 'wait_for_confirm',
     },
     note: {
       type: String,
@@ -24,8 +26,28 @@ const orderSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    total: { type: Number, default: 0 },
-    product: [Product],
+    addressId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Address',
+    },
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+    quantity: {
+      type: Number,
+      require: true,
+    },
+    total: {
+      type: Number,
+      default: 0,
+    },
+    product: {
+      type: Object,
+    },
+    user: {
+      type: Object,
+    },
   },
   {
     timestamps: true,

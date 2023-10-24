@@ -5,7 +5,6 @@ const Category = require('../models/category.model');
 
 const createBlog = async (blogBody) => {
   const categoryId = blogBody.categoryId;
-  // console.log('categoryId :>> ', categoryId);
 
   const category = await Category.findById(categoryId);
 

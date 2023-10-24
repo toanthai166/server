@@ -1,22 +1,21 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const productValidation = require('../../validations/product.validation');
-const productController = require('../../controllers/product.controller');
+const orrderValidation = require('../../validations/order.validation');
+const orrderController = require('../../controllers/order.controller');
 
 const router = express.Router();
 
-router.route('/create').post(auth('product'), validate(productValidation.createProduct), productController.createProduct);
-router.route('/').get(validate(productValidation.getProducts), productController.getProducts);
+router.route('/create').post(auth('order'), validate(orrderValidation.createOrder), orrderController.createOrder);
+router.route('/').get(auth('order'), validate(orrderValidation.getOrders), orrderController.getOrders);
 
-router
-  .route('/:id/active')
-  .patch(auth('product'), validate(productValidation.changeIsActiveProduct), productController.changeIsActiveProduct);
+// router
+//   .route('/:id/default')
+//   .patch(auth('address'), validate(addressValidation.changeIsDefaultAddress), addressController.changeIsDefaultAddress);
 router
   .route('/:id')
-  .get(validate(productValidation.getProduct), productController.getProduct)
-  .patch(validate(productValidation.updateProduct), productController.updateProduct)
-  .delete(validate(productValidation.deleteProduct), productController.deleteProduct);
+  .get(auth('order'), validate(orrderValidation.getOrder), orrderController.getOrder)
+  .patch(auth('order'), validate(orrderValidation.updateOrder), orrderController.updateOrder);
 
 module.exports = router;
 

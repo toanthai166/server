@@ -6,7 +6,8 @@ const createProduct = {
     name: Joi.string().required(),
     description: Joi.string().required(),
     quantity: Joi.number(),
-    imageLink: Joi.string(),
+    author: Joi.string(),
+    image: Joi.string(),
     isActive: Joi.boolean(),
     unitPrice: Joi.number(),
   }),
@@ -24,16 +25,17 @@ const getProducts = {
 
 const getProduct = {
   params: Joi.object().keys({
-    productId: Joi.string().custom(objectId),
+    id: Joi.string().custom(objectId),
   }),
 };
 
 const changeIsActiveProduct = {
   params: Joi.object().keys({
-    productId: Joi.string().custom(objectId),
+    id: Joi.string().custom(objectId),
   }),
   body: Joi.object()
     .keys({
+      id: Joi.string().custom(objectId),
       isActive: Joi.boolean().required(),
     })
     .min(1),
@@ -41,12 +43,12 @@ const changeIsActiveProduct = {
 
 const updateProduct = {
   params: Joi.object().keys({
-    productId: Joi.required().custom(objectId),
+    id: Joi.required().custom(objectId),
   }),
   body: Joi.object().keys({
     name: Joi.string(),
     description: Joi.string(),
-    imageLink: Joi.string(),
+    image: Joi.string(),
     quantity: Joi.string(),
     isActive: Joi.boolean(),
   }),
@@ -54,7 +56,7 @@ const updateProduct = {
 
 const deleteProduct = {
   params: Joi.object().keys({
-    productId: Joi.string().custom(objectId),
+    id: Joi.string().custom(objectId),
   }),
 };
 

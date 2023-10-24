@@ -11,11 +11,11 @@ const createProduct = catchAsync(async (req, res) => {
 });
 
 const changeIsActiveProduct = catchAsync(async (req, res) => {
-  if (!req.params.productId) {
+  if (!req.params.id) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
   }
 
-  const product = await productService.updateProductById(req.params.productId, req.body);
+  const product = await productService.updateProductById(req.params.id, req.body);
   res.send(product);
 });
 const getProducts = catchAsync(async (req, res) => {
@@ -26,20 +26,23 @@ const getProducts = catchAsync(async (req, res) => {
 });
 
 const getProduct = catchAsync(async (req, res) => {
-  const product = await productService.getProductById(req.params.productId);
+  const product = await productService.getProductById(req.params.id);
+  const description = product.description.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   if (!product) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+    throw new ApiError(httpStatus.NOT_FOUND, 'product not found');
   }
-  res.send(product);
+  const { _id, name, image, author, unitPrice, quantity } = product;
+  const newProduct = { author, quantity, _id, name, unitPrice, image, description: description };
+  res.send(newProduct);
 });
 
 const updateProduct = catchAsync(async (req, res) => {
-  const product = await productService.updateProductById(req.params.productId, req.body);
+  const product = await productService.updateProductById(req.params.id, req.body);
   res.send(product);
 });
 
 const deleteProduct = catchAsync(async (req, res) => {
-  await productService.deleteProductById(req.params.productId);
+  await productService.deleteProductById(req.params.id);
   res.status(httpStatus.NO_CONTENT).send();
 });
 

@@ -22,13 +22,17 @@ const productSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    imageLink: {
+    image: {
       type: String,
       trim: true,
     },
     isActive: {
       type: Boolean,
-      default: false,
+      default: true,
+    },
+    author: {
+      type: String,
+      require: true,
     },
     unitPrice: {
       type: Number,
