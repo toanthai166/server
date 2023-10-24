@@ -26,6 +26,8 @@ const getOrders = catchAsync(async (req, res) => {
 
 const getOrder = catchAsync(async (req, res) => {
   const order = await orderService.getOrderById(req.params.id);
+  order.createdAt = order.createdAt;
+  order.updatedAt = order.updatedAt;
   res.send(order);
 });
 

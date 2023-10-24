@@ -10,6 +10,7 @@ const allRoles = {
     'category',
     'product',
     'faq',
+    'order',
     'image',
   ],
 };

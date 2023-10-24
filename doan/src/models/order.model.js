@@ -54,7 +54,12 @@ const orderSchema = mongoose.Schema(
   }
 );
 // Blog.belongsTo(Category, { foreignKey: 'categoryId' });
-
+orderSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    ret.createdAt = doc.createdAt;
+    ret.updatedAt = doc.updatedAt;
+  },
+});
 // add plugin that converts mongoose to json
 orderSchema.plugin(toJSON);
 orderSchema.plugin(paginate);
