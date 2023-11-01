@@ -11,3 +11,4 @@ module.exports.favoriteService = require('./favorite.service');
 module.exports.contactService = require('./contact.service');
 module.exports.addressService = require('./address.service');
 module.exports.orderService = require('./order.service');
+module.exports.cartService = require('./cart.service');
