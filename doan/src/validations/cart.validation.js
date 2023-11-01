@@ -7,9 +7,9 @@ const addToCart = {
   }),
 };
 
-const getProducts = {
+const myCarts = {
   query: Joi.object().keys({
-    title: Joi.string(),
+    userId: Joi.string(),
     sortBy: Joi.string(),
     isActive: Joi.boolean(),
     limit: Joi.number().integer(),
@@ -17,22 +17,10 @@ const getProducts = {
   }),
 };
 
-const getProduct = {
+const getCart = {
   params: Joi.object().keys({
     id: Joi.string().custom(objectId),
   }),
-};
-
-const changeIsActiveProduct = {
-  params: Joi.object().keys({
-    id: Joi.string().custom(objectId),
-  }),
-  body: Joi.object()
-    .keys({
-      id: Joi.string().custom(objectId),
-      isActive: Joi.boolean().required(),
-    })
-    .min(1),
 };
 
 const updateCart = {
@@ -45,13 +33,16 @@ const updateCart = {
   }),
 };
 
-const deleteProduct = {
-  params: Joi.object().keys({
-    id: Joi.string().custom(objectId),
+const removeToCart = {
+  body: Joi.object().keys({
+    productId: Joi.string().custom(objectId).required(),
   }),
 };
 
 module.exports = {
   addToCart,
   updateCart,
+  myCarts,
+  removeToCart,
+  getCart,
 };

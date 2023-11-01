@@ -27,6 +27,28 @@ const updateCart = async (id, updateBody) => {
   return cart;
 };
 
+const removeToCart = async (id, updateBody) => {
+  const products = updateBody;
+  console.log(2);
+  const cart = await Cart.findById(id);
+  if (!cart) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'cart not found');
+  }
+  Object.assign(cart, updateBody);
+  try {
+    await cart.save();
+  } catch (error) {
+    console.error('Lỗi cơ sở dữ liệu:', error);
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Lỗi cơ sở dữ liệu');
+  }
+  // await cart.save();
+  return cart;
+};
+
+const myCarts = async (filter, options) => {
+  const carts = await Cart.paginate(filter, options);
+  return carts;
+};
 /**
  * Delete user by id
  * @param {ObjectId} userId
@@ -44,4 +66,5 @@ const deleteBlogById = async (blogId) => {
 module.exports = {
   addToCart,
   updateCart,
+  myCarts,
 };

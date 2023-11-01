@@ -34,15 +34,23 @@ const addToCart = catchAsync(async (req, res) => {
   }
 });
 
-const getBlogs = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['categoryId', 'isActive']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  if (req.query.title) {
-    const titleRegex = new RegExp(req.query.title, 'i');
+const removeToCart = catchAsync(async (req, res) => {
+  const newProducts = {
+    ...req.body,
+    userId: req.user.id,
+  };
+  const userId = req.user.id;
+  const cart = await Cart.findOne({ userId });
+  const newData = cart.products.filter((item) => item.product.id !== req.body.productId);
 
-    filter.title = titleRegex;
-  }
-  const result = await blogService.queryBlogs(filter, options);
+  const cartItem = await cartService.updateCart(cart.id, { products: newData });
+  res.send(cartItem);
+});
+
+const myCarts = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['userId']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await cartService.myCarts(filter, options);
   res.send(result);
 });
 
@@ -69,4 +77,6 @@ const deleteBlog = catchAsync(async (req, res) => {
 
 module.exports = {
   addToCart,
+  myCarts,
+  removeToCart,
 };

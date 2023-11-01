@@ -9,8 +9,8 @@ const router = express.Router();
 router
   .route('/create')
   .post(auth('addToCart'), validate(cartValidation.addToCart || cartValidation.updateCart), cartController.addToCart);
-//   .post(auth('addToCart'), validate(cartValidation.addToCart), cartController.addToCart);
-// router.route('/').get(validate(blogValidation.getBlogs), blogController.getBlogs);
+router.route('/remove').post(auth('addToCart'), validate(cartValidation.removeToCart), cartController.removeToCart);
+router.route('/').get(validate(cartValidation.myCarts), cartController.myCarts);
 // router
 //   .route('/:blogId/favorite')
 //   .patch(auth('changeFavoriteBlog'), validate(blogValidation.changeIsFavoriteBlog), blogController.changeIsFavoriteBlog);
