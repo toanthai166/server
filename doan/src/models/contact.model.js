@@ -22,7 +22,7 @@ const feedbackSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['done', 'in_progress', 'waiting'],
+      enum: ['done', 'waiting'],
       default: 'waiting',
     },
     content: {
@@ -39,6 +39,13 @@ const feedbackSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+feedbackSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    ret.createdAt = doc.createdAt;
+    ret.updatedAt = doc.updatedAt;
+  },
+});
 // Blog.belongsTo(Category, { foreignKey: 'categoryId' });
 
 // add plugin that converts mongoose to json

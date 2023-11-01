@@ -19,6 +19,8 @@ const getFAQs = {
   query: Joi.object().keys({
     content: Joi.string(),
     isActive: Joi.boolean(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
   }),
   params: Joi.object().keys({
     isActive: Joi.boolean(),

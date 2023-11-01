@@ -39,6 +39,12 @@ const blogSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+blogSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    ret.createdAt = doc.createdAt;
+    ret.updatedAt = doc.updatedAt;
+  },
+});
 // Blog.belongsTo(Category, { foreignKey: 'categoryId' });
 
 // add plugin that converts mongoose to json

@@ -47,7 +47,7 @@ const updateAddress = {
       phone: Joi.string(),
       isDefault: Joi.boolean(),
       addressMoreInfo: Joi.string(),
-      addressName: Joi.boolean(),
+      addressName: Joi.string(),
     })
     .min(1),
 };

@@ -46,10 +46,11 @@ const updateProduct = {
     id: Joi.required().custom(objectId),
   }),
   body: Joi.object().keys({
+    id: Joi.required().custom(objectId),
     name: Joi.string(),
     description: Joi.string(),
     image: Joi.string(),
-    quantity: Joi.string(),
+    quantity: Joi.number(),
     isActive: Joi.boolean(),
   }),
 };
