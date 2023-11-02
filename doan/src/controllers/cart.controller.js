@@ -6,6 +6,7 @@ const { cartService } = require('../services');
 const Category = require('../models/category.model');
 const Product = require('../models/product.model');
 const Cart = require('../models/cart.model');
+const { log } = require('../config/logger');
 
 const addToCart = catchAsync(async (req, res) => {
   const newProducts = {
@@ -14,9 +15,9 @@ const addToCart = catchAsync(async (req, res) => {
   };
   const userId = req.user.id;
   const cart = await Cart.findOne({ userId });
+  const foundProduct = await Product.findById(req.body.id);
   if (cart === null) {
     const products = [];
-    const foundProduct = await Product.findById(req.body.id);
     products.push({
       product: foundProduct,
       quantity: req.body.quantity,
@@ -24,13 +25,28 @@ const addToCart = catchAsync(async (req, res) => {
     await cartService.addToCart({ ...newProducts, products: products });
     res.status(httpStatus.CREATED).send({ ...newProducts, products: products });
   } else {
-    const foundProduct = await Product.findById(req.body.id);
-    cart.products.push({
-      product: foundProduct,
-      quantity: req.body.quantity,
+    const productToUpdate = cart.products.find((item) => {
+      return item.product._id == req.body.id;
     });
-    const cartItem = await cartService.updateCart(cart.id, { products: cart.products });
-    res.send(cartItem);
+    if (productToUpdate) {
+      const newCart = cart.products.filter((item) => {
+        return String(item.product._id) !== req.body.id;
+      });
+      productToUpdate.quantity += req.body.quantity;
+      newCart.push(productToUpdate);
+      const cartItem = await cartService.updateCart(cart.id, { products: newCart });
+      res.send(cartItem);
+    } else {
+      cart.products.push({
+        product: foundProduct,
+        quantity: req.body.quantity,
+      });
+      const cartItem = await cartService.updateCart(cart.id, { products: cart.products });
+      res.send(cartItem);
+    }
+
+    // const cartItem = await cartService.updateCart(cart.id, { products: cart.products });
+    // res.send(cartItem);
   }
 });
 
@@ -52,27 +68,6 @@ const myCarts = catchAsync(async (req, res) => {
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await cartService.myCarts(filter, options);
   res.send(result);
-});
-
-const getBlog = catchAsync(async (req, res) => {
-  const blog = await blogService.getBlogById(req.params.blogId);
-  const content = blog.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-  if (!blog) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Blog not found');
-  }
-  const { isActive, isFavorite, _id, title, categoryId, image } = blog;
-  const newblog = { isActive, isFavorite, _id, title, categoryId, image, content: content };
-  res.send(newblog);
-});
-
-const updateBlog = catchAsync(async (req, res) => {
-  const blog = await blogService.updateBlogById(req.params.blogId, req.body);
-  res.send(blog);
-});
-
-const deleteBlog = catchAsync(async (req, res) => {
-  await blogService.deleteBlogById(req.params.blogId);
-  res.status(httpStatus.NO_CONTENT).send();
 });
 
 module.exports = {

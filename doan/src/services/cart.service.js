@@ -11,7 +11,6 @@ const addToCart = async (body) => {
 
 const updateCart = async (id, updateBody) => {
   const products = updateBody;
-  console.log(2);
   const cart = await Cart.findById(id);
   if (!cart) {
     throw new ApiError(httpStatus.NOT_FOUND, 'cart not found');
